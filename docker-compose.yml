@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: koto_db
+    environment:
+      POSTGRES_DB: koto
+      POSTGRES_USER: koto_user
+      POSTGRES_PASSWORD: koto_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - koto_data:/var/lib/postgresql/data
+
+volumes:
+  koto_data:
