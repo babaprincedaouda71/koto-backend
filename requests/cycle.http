@@ -1,0 +1,15 @@
+### 1. Démarrer un cycle
+POST http://localhost:8080/api/groupes/eed9f8b2-e87f-4a82-9315-dd55e66e0f36/cycles
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcmluY2VAa290by5hcHAiLCJpYXQiOjE3Nzc5MTE0MjgsImV4cCI6MTc3Nzk5NzgyOH0.BCic7brGNHI21JZujcqveMVzh1g2aZAyW3I-xHXIpry7p1I_UZsLV3YKe6RACXrjvOpiDKOngFduv_ly8S39JQ
+
+###
+
+### 2. Liste des cycles
+GET http://localhost:8080/api/groupes/eed9f8b2-e87f-4a82-9315-dd55e66e0f36/cycles
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcmluY2VAa290by5hcHAiLCJpYXQiOjE3Nzc5MTE0MjgsImV4cCI6MTc3Nzk5NzgyOH0.BCic7brGNHI21JZujcqveMVzh1g2aZAyW3I-xHXIpry7p1I_UZsLV3YKe6RACXrjvOpiDKOngFduv_ly8S39JQ
+
+###
+
+### 3. Cycle actif
+GET http://localhost:8080/api/groupes/eed9f8b2-e87f-4a82-9315-dd55e66e0f36/cycles/actif
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcmluY2VAa290by5hcHAiLCJpYXQiOjE3Nzc5MTE0MjgsImV4cCI6MTc3Nzk5NzgyOH0.BCic7brGNHI21JZujcqveMVzh1g2aZAyW3I-xHXIpry7p1I_UZsLV3YKe6RACXrjvOpiDKOngFduv_ly8S39JQ

@@ -26,7 +26,7 @@ Content-Type: application/json
 ### 3. Créer un groupe
 POST http://localhost:8080/api/groupes
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcmluY2VAa290by5hcHAiLCJpYXQiOjE3Nzc5MTAxMTcsImV4cCI6MTc3Nzk5NjUxN30.x9kFv4-JnQQdc9wiXWoSYgpzM-zp1PiWzpDF-wIgfq8C_w2LaDO2F1hTNlEbPZsJg2bUxunMTGakFCnkN-KTiQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcmluY2VAa290by5hcHAiLCJpYXQiOjE3Nzc5MTE0MjgsImV4cCI6MTc3Nzk5NzgyOH0.BCic7brGNHI21JZujcqveMVzh1g2aZAyW3I-xHXIpry7p1I_UZsLV3YKe6RACXrjvOpiDKOngFduv_ly8S39JQ
 
 {
   "nom": "Tontine Famille Coulibaly",
@@ -52,4 +52,4 @@ Authorization: Bearer TOKEN_PRINCE
 
 ### 6. Générer lien d'invitation
 GET http://localhost:8080/api/groupes/f78c25e6-85aa-4834-aefe-20f8408f6d47/invite
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcmluY2VAa290by5hcHAiLCJpYXQiOjE3Nzc5MTAxMTcsImV4cCI6MTc3Nzk5NjUxN30.x9kFv4-JnQQdc9wiXWoSYgpzM-zp1PiWzpDF-wIgfq8C_w2LaDO2F1hTNlEbPZsJg2bUxunMTGakFCnkN-KTiQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcmluY2VAa290by5hcHAiLCJpYXQiOjE3Nzc5MTE0MjgsImV4cCI6MTc3Nzk5NzgyOH0.BCic7brGNHI21JZujcqveMVzh1g2aZAyW3I-xHXIpry7p1I_UZsLV3YKe6RACXrjvOpiDKOngFduv_ly8S39JQ

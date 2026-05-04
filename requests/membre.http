@@ -24,9 +24,9 @@ Content-Type: application/json
 ###
 
 ### 3. Rejoindre le groupe via token invitation
-POST http://localhost:8080/api/rejoindre/c18bc78a-afeb-4b59-9171-eb6defba32a9
+POST http://localhost:8080/api/rejoindre/34e1116c-d204-416b-82b2-3c357436da7c
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbWluYXRhQGtvdG8uYXBwIiwiaWF0IjoxNzc3OTEwMjQ5LCJleHAiOjE3Nzc5OTY2NDl9.H7kIC3wCL6F8wPMHKNrQXCtTemfXvl-x4wRpdzn2SzuuMrj-hbbIP1GDOErW-gTeommqUI-F4WZJ5u-ClXflfQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbWluYXRhQGtvdG8uYXBwIiwiaWF0IjoxNzc3OTExNTczLCJleHAiOjE3Nzc5OTc5NzN9.TliBQ7DbNT7OT4inhAosq7whcdd_3KeXg1KZvgTs3l-C13QJHjZmfSKV6-2eSps--QKwxr_fK0ELPrCzHKe30Q
 
 ###
 
