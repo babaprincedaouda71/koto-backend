@@ -40,7 +40,7 @@ public class GroupeService {
 
     public List<GroupeResponse> getMesGroupes() {
         User user = getCurrentUser();
-        return groupeRepository.findByAdminId(user.getId())
+        return groupeRepository.findAllByUserId(user.getId())
                 .stream()
                 .map(this::toResponse)
                 .toList();
@@ -69,6 +69,9 @@ public class GroupeService {
     private GroupeResponse toResponse(Groupe groupe) {
         return GroupeResponse.builder()
                 .id(groupe.getId())
+                .adminId(groupe.getAdmin().getId())
+                .adminNom(groupe.getAdmin().getNom())
+                .adminPrenom(groupe.getAdmin().getPrenom())
                 .nom(groupe.getNom())
                 .montantCotisation(groupe.getMontantCotisation())
                 .devise(groupe.getDevise())
@@ -76,8 +79,6 @@ public class GroupeService {
                 .dateDebut(groupe.getDateDebut())
                 .statut(groupe.getStatut())
                 .tokenInvitation(groupe.getTokenInvitation())
-                .adminNom(groupe.getAdmin().getNom())
-                .adminPrenom(groupe.getAdmin().getPrenom())
                 .build();
     }
 

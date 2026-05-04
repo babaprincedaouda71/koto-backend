@@ -35,6 +35,37 @@ public class PaiementService {
                 .toList();
     }
 
+    public PaiementResponse declarerPaiement(UUID paiementId) {
+        User user = getCurrentUser();
+        Paiement paiement = paiementRepository.findById(paiementId)
+                .orElseThrow(() -> new RuntimeException("Paiement non trouvé"));
+
+        if (!paiement.getMembre().getUser().getId().equals(user.getId())) {
+            throw new RuntimeException("Accès refusé");
+        }
+        if (paiement.getStatut() == StatutPaiement.PAYE) {
+            throw new RuntimeException("Ce paiement est déjà confirmé");
+        }
+
+        paiement.setStatut(StatutPaiement.DECLARE);
+        paiementRepository.save(paiement);
+        return toResponse(paiement);
+    }
+
+    public PaiementResponse invaliderPaiement(UUID paiementId) {
+        User admin = getCurrentUser();
+        Paiement paiement = paiementRepository.findById(paiementId)
+                .orElseThrow(() -> new RuntimeException("Paiement non trouvé"));
+
+        if (!paiement.getCycle().getGroupe().getAdmin().getId().equals(admin.getId())) {
+            throw new RuntimeException("Accès refusé — admin uniquement");
+        }
+
+        paiement.setStatut(StatutPaiement.EN_ATTENTE);
+        paiementRepository.save(paiement);
+        return toResponse(paiement);
+    }
+
     public PaiementResponse confirmerPaiement(UUID paiementId, String note) {
         Paiement paiement = paiementRepository.findById(paiementId)
                 .orElseThrow(() -> new RuntimeException("Paiement non trouvé"));
@@ -106,6 +137,7 @@ public class PaiementService {
         return PaiementResponse.builder()
                 .id(paiement.getId())
                 .membreId(paiement.getMembre().getId())
+                .userId(paiement.getMembre().getUser().getId())
                 .membreNom(paiement.getMembre().getUser().getNom())
                 .membrePrenom(paiement.getMembre().getUser().getPrenom())
                 .telephone(paiement.getMembre().getUser().getTelephone())

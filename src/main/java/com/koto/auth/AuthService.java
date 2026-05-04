@@ -41,13 +41,14 @@ public class AuthService {
         userRepository.save(user);
         String token = jwtService.generateToken(user);
 
-        return AuthResponse.builder()
-                .token(token)
-                .nom(user.getNom())
-                .prenom(user.getPrenom())
-                .email(user.getEmail())
-                .role(user.getRole().name())
-                .build();
+        return new AuthResponse(
+                token,
+                user.getId(),
+                user.getNom(),
+                user.getPrenom(),
+                user.getEmail(),
+                user.getRole().name()
+        );
     }
 
     public AuthResponse login(LoginRequest request) {
@@ -63,12 +64,13 @@ public class AuthService {
 
         String token = jwtService.generateToken(user);
 
-        return AuthResponse.builder()
-                .token(token)
-                .nom(user.getNom())
-                .prenom(user.getPrenom())
-                .email(user.getEmail())
-                .role(user.getRole().name())
-                .build();
+        return new AuthResponse(
+                token,
+                user.getId(),
+                user.getNom(),
+                user.getPrenom(),
+                user.getEmail(),
+                user.getRole().name()
+        );
     }
 }

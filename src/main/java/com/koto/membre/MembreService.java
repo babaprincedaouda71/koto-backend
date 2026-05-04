@@ -6,6 +6,7 @@ import com.koto.membre.dto.MembreResponse;
 import com.koto.user.User;
 import com.koto.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,7 +43,12 @@ public class MembreService {
                 .statut(StatutMembre.ACTIF)
                 .build();
 
-        membreRepository.save(membre);
+        try {
+            membreRepository.save(membre);
+            membreRepository.flush();
+        } catch (DataIntegrityViolationException e) {
+            throw new RuntimeException("Vous êtes déjà membre de ce groupe");
+        }
         return toResponse(membre);
     }
 

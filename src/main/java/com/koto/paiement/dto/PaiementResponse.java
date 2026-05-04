@@ -14,6 +14,7 @@ import java.util.UUID;
 public class PaiementResponse {
     private UUID id;
     private UUID membreId;
+    private UUID userId;
     private String membreNom;
     private String membrePrenom;
     private String telephone;

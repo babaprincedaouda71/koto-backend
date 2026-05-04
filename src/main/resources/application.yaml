@@ -3,9 +3,9 @@ spring:
     name: koto-backend
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/koto
-    username: koto_user
-    password: koto_pass
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/koto}
+    username: ${DB_USERNAME:koto_user}
+    password: ${DB_PASSWORD:koto_pass}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -23,9 +23,9 @@ spring:
     baseline-on-migrate: true
 
 server:
-  port: 8080
+  port: ${PORT:8080}
 
 app:
   jwt:
-    secret: 404D635166546A576E5A7234753778214125442A472D4B6150645367566B5970
-    expiration: 86400000
+    secret: ${JWT_SECRET:404D635166546A576E5A7234753778214125442A472D4B6150645367566B5970}
+    expiration: ${JWT_EXPIRATION:86400000}

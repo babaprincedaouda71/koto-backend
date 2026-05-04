@@ -35,6 +35,7 @@ build/
 # Environment
 application-dev.yml
 *.env
+.env
 
 # Docker volumes
 postgres_data/

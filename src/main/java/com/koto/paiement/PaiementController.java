@@ -45,6 +45,18 @@ public class PaiementController {
                 paiementService.getPaiementsMembre(membreId)));
     }
 
+    @PatchMapping("/api/paiements/{id}/declarer")
+    public ResponseEntity<ApiResponse<PaiementResponse>> declarerPaiement(@PathVariable UUID id) {
+        PaiementResponse response = paiementService.declarerPaiement(id);
+        return ResponseEntity.ok(ApiResponse.success("Paiement déclaré", response));
+    }
+
+    @PatchMapping("/api/paiements/{id}/invalider")
+    public ResponseEntity<ApiResponse<PaiementResponse>> invaliderPaiement(@PathVariable UUID id) {
+        PaiementResponse response = paiementService.invaliderPaiement(id);
+        return ResponseEntity.ok(ApiResponse.success("Paiement invalidé", response));
+    }
+
     @PostMapping("/api/paiements/{id}/rappel")
     public ResponseEntity<ApiResponse<String>> envoyerRappel(@PathVariable UUID id) {
         String lien = paiementService.envoyerRappel(id);

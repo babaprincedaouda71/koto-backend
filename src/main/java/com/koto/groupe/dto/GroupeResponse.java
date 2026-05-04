@@ -13,6 +13,9 @@ import java.util.UUID;
 @Builder
 public class GroupeResponse {
     private UUID id;
+    private UUID adminId;
+    private String adminNom;
+    private String adminPrenom;
     private String nom;
     private Integer montantCotisation;
     private String devise;
@@ -20,6 +23,4 @@ public class GroupeResponse {
     private LocalDate dateDebut;
     private StatutGroupe statut;
     private UUID tokenInvitation;
-    private String adminNom;
-    private String adminPrenom;
 }
