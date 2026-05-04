@@ -18,3 +18,28 @@ Content-Type: application/json
   "email": "prince@koto.app",
   "motDePasse": "password123"
 }
+
+### Créer un groupe (remplace TOKEN par le token reçu au login)
+POST http://localhost:8080/api/groupes
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcmluY2VAa290by5hcHAiLCJpYXQiOjE3Nzc5MDkxMzEsImV4cCI6MTc3Nzk5NTUzMX0.SDJOrZ977RAZxW3ANdL5VcN0TZsG2iePWKvSuhOt5Xpk2c2xgERdH4XikeMBP8cjTCDBKmezUqiaqX7zw1M2VQ
+
+{
+  "nom": "Tontine Famille Coulibaly",
+  "montantCotisation": 10000,
+  "devise": "XOF",
+  "nombreMembres": 6,
+  "dateDebut": "2026-06-01"
+}
+
+### Mes groupes
+GET http://localhost:8080/api/groupes
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcmluY2VAa290by5hcHAiLCJpYXQiOjE3Nzc5MDkxMzEsImV4cCI6MTc3Nzk5NTUzMX0.SDJOrZ977RAZxW3ANdL5VcN0TZsG2iePWKvSuhOt5Xpk2c2xgERdH4XikeMBP8cjTCDBKmezUqiaqX7zw1M2VQ
+
+### Détail d'un groupe (remplace GROUP_ID par l'id reçu)
+GET http://localhost:8080/api/groupes/78db0f8d-5eb1-4847-a7f9-b33fc357f693
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcmluY2VAa290by5hcHAiLCJpYXQiOjE3Nzc5MDkxMzEsImV4cCI6MTc3Nzk5NTUzMX0.SDJOrZ977RAZxW3ANdL5VcN0TZsG2iePWKvSuhOt5Xpk2c2xgERdH4XikeMBP8cjTCDBKmezUqiaqX7zw1M2VQ
+
+### Générer un lien d'invitation
+GET http://localhost:8080/api/groupes/78db0f8d-5eb1-4847-a7f9-b33fc357f693/invite
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcmluY2VAa290by5hcHAiLCJpYXQiOjE3Nzc5MDkxMzEsImV4cCI6MTc3Nzk5NTUzMX0.SDJOrZ977RAZxW3ANdL5VcN0TZsG2iePWKvSuhOt5Xpk2c2xgERdH4XikeMBP8cjTCDBKmezUqiaqX7zw1M2VQ
