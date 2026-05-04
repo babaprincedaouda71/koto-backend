@@ -1,0 +1,41 @@
+### 1. Register Aminata (membre)
+POST http://localhost:8080/api/auth/register
+Content-Type: application/json
+
+{
+  "nom": "Traore",
+  "prenom": "Aminata",
+  "telephone": "+22600000001",
+  "email": "aminata@koto.app",
+  "motDePasse": "password123"
+}
+
+###
+
+### 2. Login Aminata
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "aminata@koto.app",
+  "motDePasse": "password123"
+}
+
+###
+
+### 3. Rejoindre le groupe via token invitation
+POST http://localhost:8080/api/rejoindre/c18bc78a-afeb-4b59-9171-eb6defba32a9
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbWluYXRhQGtvdG8uYXBwIiwiaWF0IjoxNzc3OTEwMjQ5LCJleHAiOjE3Nzc5OTY2NDl9.H7kIC3wCL6F8wPMHKNrQXCtTemfXvl-x4wRpdzn2SzuuMrj-hbbIP1GDOErW-gTeommqUI-F4WZJ5u-ClXflfQ
+
+###
+
+### 4. Liste des membres du groupe
+GET http://localhost:8080/api/groupes/f78c25e6-85aa-4834-aefe-20f8408f6d47/membres
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcmluY2VAa290by5hcHAiLCJpYXQiOjE3Nzc5MTAxMTcsImV4cCI6MTc3Nzk5NjUxN30.x9kFv4-JnQQdc9wiXWoSYgpzM-zp1PiWzpDF-wIgfq8C_w2LaDO2F1hTNlEbPZsJg2bUxunMTGakFCnkN-KTiQ
+
+###
+
+### 5. Modifier l'ordre d'un membre
+PATCH http://localhost:8080/api/groupes/f78c25e6-85aa-4834-aefe-20f8408f6d47/membres/715ffc9f-de42-4846-8cd6-74f73530b82a/ordre?nouvelOrdre=2
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcmluY2VAa290by5hcHAiLCJpYXQiOjE3Nzc5MTAxMTcsImV4cCI6MTc3Nzk5NjUxN30.x9kFv4-JnQQdc9wiXWoSYgpzM-zp1PiWzpDF-wIgfq8C_w2LaDO2F1hTNlEbPZsJg2bUxunMTGakFCnkN-KTiQ

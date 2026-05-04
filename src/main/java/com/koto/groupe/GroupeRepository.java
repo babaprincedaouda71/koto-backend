@@ -14,13 +14,13 @@ public interface GroupeRepository extends JpaRepository<Groupe, UUID> {
 
     Optional<Groupe> findByTokenInvitation(UUID token);
 
-//    @Query("""
-//        SELECT DISTINCT g FROM Groupe g
-//        LEFT JOIN g.admin a
-//        WHERE a.id = :userId
-//        OR g.id IN (
-//            SELECT m.groupe.id FROM Membre m WHERE m.user.id = :userId
-//        )
-//    """)
-//    List<Groupe> findAllByUserId(@Param("userId") UUID userId);
+    @Query("""
+        SELECT DISTINCT g FROM Groupe g
+        LEFT JOIN g.admin a
+        WHERE a.id = :userId
+        OR g.id IN (
+            SELECT m.groupe.id FROM Membre m WHERE m.user.id = :userId
+        )
+    """)
+    List<Groupe> findAllByUserId(@Param("userId") UUID userId);
 }

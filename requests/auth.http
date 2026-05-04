@@ -1,4 +1,4 @@
-### Register
+### 1. Register Prince (admin)
 POST http://localhost:8080/api/auth/register
 Content-Type: application/json
 
@@ -10,7 +10,9 @@ Content-Type: application/json
   "motDePasse": "password123"
 }
 
-### Login
+###
+
+### 2. Login Prince
 POST http://localhost:8080/api/auth/login
 Content-Type: application/json
 
@@ -19,10 +21,12 @@ Content-Type: application/json
   "motDePasse": "password123"
 }
 
-### Créer un groupe (remplace TOKEN par le token reçu au login)
+###
+
+### 3. Créer un groupe
 POST http://localhost:8080/api/groupes
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcmluY2VAa290by5hcHAiLCJpYXQiOjE3Nzc5MDkxMzEsImV4cCI6MTc3Nzk5NTUzMX0.SDJOrZ977RAZxW3ANdL5VcN0TZsG2iePWKvSuhOt5Xpk2c2xgERdH4XikeMBP8cjTCDBKmezUqiaqX7zw1M2VQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcmluY2VAa290by5hcHAiLCJpYXQiOjE3Nzc5MTAxMTcsImV4cCI6MTc3Nzk5NjUxN30.x9kFv4-JnQQdc9wiXWoSYgpzM-zp1PiWzpDF-wIgfq8C_w2LaDO2F1hTNlEbPZsJg2bUxunMTGakFCnkN-KTiQ
 
 {
   "nom": "Tontine Famille Coulibaly",
@@ -32,14 +36,20 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcmluY2VAa290by5hcHAiLCJpY
   "dateDebut": "2026-06-01"
 }
 
-### Mes groupes
+###
+
+### 4. Mes groupes
 GET http://localhost:8080/api/groupes
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcmluY2VAa290by5hcHAiLCJpYXQiOjE3Nzc5MDkxMzEsImV4cCI6MTc3Nzk5NTUzMX0.SDJOrZ977RAZxW3ANdL5VcN0TZsG2iePWKvSuhOt5Xpk2c2xgERdH4XikeMBP8cjTCDBKmezUqiaqX7zw1M2VQ
+Authorization: Bearer TOKEN_PRINCE
 
-### Détail d'un groupe (remplace GROUP_ID par l'id reçu)
-GET http://localhost:8080/api/groupes/78db0f8d-5eb1-4847-a7f9-b33fc357f693
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcmluY2VAa290by5hcHAiLCJpYXQiOjE3Nzc5MDkxMzEsImV4cCI6MTc3Nzk5NTUzMX0.SDJOrZ977RAZxW3ANdL5VcN0TZsG2iePWKvSuhOt5Xpk2c2xgERdH4XikeMBP8cjTCDBKmezUqiaqX7zw1M2VQ
+###
 
-### Générer un lien d'invitation
-GET http://localhost:8080/api/groupes/78db0f8d-5eb1-4847-a7f9-b33fc357f693/invite
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcmluY2VAa290by5hcHAiLCJpYXQiOjE3Nzc5MDkxMzEsImV4cCI6MTc3Nzk5NTUzMX0.SDJOrZ977RAZxW3ANdL5VcN0TZsG2iePWKvSuhOt5Xpk2c2xgERdH4XikeMBP8cjTCDBKmezUqiaqX7zw1M2VQ
+### 5. Détail d'un groupe
+GET http://localhost:8080/api/groupes/GROUP_ID
+Authorization: Bearer TOKEN_PRINCE
+
+###
+
+### 6. Générer lien d'invitation
+GET http://localhost:8080/api/groupes/f78c25e6-85aa-4834-aefe-20f8408f6d47/invite
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcmluY2VAa290by5hcHAiLCJpYXQiOjE3Nzc5MTAxMTcsImV4cCI6MTc3Nzk5NjUxN30.x9kFv4-JnQQdc9wiXWoSYgpzM-zp1PiWzpDF-wIgfq8C_w2LaDO2F1hTNlEbPZsJg2bUxunMTGakFCnkN-KTiQ
