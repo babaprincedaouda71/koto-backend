@@ -5,6 +5,7 @@ import com.koto.groupe.dto.GroupeResponse;
 import com.koto.shared.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,9 @@ import java.util.UUID;
 public class GroupeController {
 
     private final GroupeService groupeService;
+
+    @Value("${app.frontend-url}")
+    private String frontendUrl;
 
     @PostMapping
     public ResponseEntity<ApiResponse<GroupeResponse>> creerGroupe(
@@ -38,7 +42,7 @@ public class GroupeController {
     @GetMapping("/{id}/invite")
     public ResponseEntity<ApiResponse<String>> genererInvitation(@PathVariable UUID id) {
         UUID token = groupeService.genererLienInvitation(id);
-        String lien = "http://localhost:5173/rejoindre/" + token;
+        String lien = frontendUrl + "/rejoindre/" + token;
         return ResponseEntity.ok(ApiResponse.success("Lien généré", lien));
     }
 }

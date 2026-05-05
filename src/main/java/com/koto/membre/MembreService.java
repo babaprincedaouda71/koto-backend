@@ -3,6 +3,7 @@ package com.koto.membre;
 import com.koto.groupe.Groupe;
 import com.koto.groupe.GroupeRepository;
 import com.koto.membre.dto.MembreResponse;
+import com.koto.shared.BusinessException;
 import com.koto.user.User;
 import com.koto.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,12 +26,12 @@ public class MembreService {
 
     public MembreResponse rejoindreGroupe(UUID tokenInvitation) {
         Groupe groupe = groupeRepository.findByTokenInvitation(tokenInvitation)
-                .orElseThrow(() -> new RuntimeException("Lien d'invitation invalide"));
+                .orElseThrow(() -> new BusinessException("Lien d'invitation invalide"));
 
         User user = getCurrentUser();
 
         if (membreRepository.existsByGroupeIdAndUserId(groupe.getId(), user.getId())) {
-            throw new RuntimeException("Vous êtes déjà membre de ce groupe");
+            throw new BusinessException("Vous êtes déjà membre de ce groupe");
         }
 
         int prochainOrdre = membreRepository
@@ -47,7 +48,7 @@ public class MembreService {
             membreRepository.save(membre);
             membreRepository.flush();
         } catch (DataIntegrityViolationException e) {
-            throw new RuntimeException("Vous êtes déjà membre de ce groupe");
+            throw new BusinessException("Vous êtes déjà membre de ce groupe");
         }
         return toResponse(membre);
     }
@@ -63,14 +64,18 @@ public class MembreService {
     public MembreResponse modifierOrdre(UUID groupeId, UUID membreId, Integer nouvelOrdre) {
         User admin = getCurrentUser();
         Groupe groupe = groupeRepository.findById(groupeId)
-                .orElseThrow(() -> new RuntimeException("Groupe non trouvé"));
+                .orElseThrow(() -> new BusinessException("Accès refusé"));
 
         if (!groupe.getAdmin().getId().equals(admin.getId())) {
-            throw new RuntimeException("Accès refusé — admin uniquement");
+            throw new BusinessException("Accès refusé");
         }
 
         Membre membre = membreRepository.findById(membreId)
-                .orElseThrow(() -> new RuntimeException("Membre non trouvé"));
+                .orElseThrow(() -> new BusinessException("Accès refusé"));
+
+        if (!membre.getGroupe().getId().equals(groupeId)) {
+            throw new BusinessException("Accès refusé");
+        }
 
         membre.setOrdreReception(nouvelOrdre);
         membreRepository.save(membre);

@@ -6,6 +6,7 @@ import com.koto.paiement.dto.PaiementResponse;
 import com.koto.rappel.Rappel;
 import com.koto.rappel.RappelRepository;
 import com.koto.rappel.StatutRappel;
+import com.koto.shared.BusinessException;
 import com.koto.user.User;
 import com.koto.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -38,13 +39,13 @@ public class PaiementService {
     public PaiementResponse declarerPaiement(UUID paiementId) {
         User user = getCurrentUser();
         Paiement paiement = paiementRepository.findById(paiementId)
-                .orElseThrow(() -> new RuntimeException("Paiement non trouvé"));
+                .orElseThrow(() -> new BusinessException("Accès refusé"));
 
         if (!paiement.getMembre().getUser().getId().equals(user.getId())) {
-            throw new RuntimeException("Accès refusé");
+            throw new BusinessException("Accès refusé");
         }
         if (paiement.getStatut() == StatutPaiement.PAYE) {
-            throw new RuntimeException("Ce paiement est déjà confirmé");
+            throw new BusinessException("Ce paiement est déjà confirmé");
         }
 
         paiement.setStatut(StatutPaiement.DECLARE);
@@ -55,10 +56,10 @@ public class PaiementService {
     public PaiementResponse invaliderPaiement(UUID paiementId) {
         User admin = getCurrentUser();
         Paiement paiement = paiementRepository.findById(paiementId)
-                .orElseThrow(() -> new RuntimeException("Paiement non trouvé"));
+                .orElseThrow(() -> new BusinessException("Accès refusé"));
 
         if (!paiement.getCycle().getGroupe().getAdmin().getId().equals(admin.getId())) {
-            throw new RuntimeException("Accès refusé — admin uniquement");
+            throw new BusinessException("Accès refusé");
         }
 
         paiement.setStatut(StatutPaiement.EN_ATTENTE);
@@ -67,11 +68,15 @@ public class PaiementService {
     }
 
     public PaiementResponse confirmerPaiement(UUID paiementId, String note) {
+        User admin = getCurrentUser();
         Paiement paiement = paiementRepository.findById(paiementId)
-                .orElseThrow(() -> new RuntimeException("Paiement non trouvé"));
+                .orElseThrow(() -> new BusinessException("Accès refusé"));
 
+        if (!paiement.getCycle().getGroupe().getAdmin().getId().equals(admin.getId())) {
+            throw new BusinessException("Accès refusé");
+        }
         if (paiement.getStatut() == StatutPaiement.PAYE) {
-            throw new RuntimeException("Ce paiement est déjà confirmé");
+            throw new BusinessException("Ce paiement est déjà confirmé");
         }
 
         paiement.setStatut(StatutPaiement.PAYE);
@@ -90,11 +95,15 @@ public class PaiementService {
     }
 
     public String envoyerRappel(UUID paiementId) {
+        User admin = getCurrentUser();
         Paiement paiement = paiementRepository.findById(paiementId)
-                .orElseThrow(() -> new RuntimeException("Paiement non trouvé"));
+                .orElseThrow(() -> new BusinessException("Accès refusé"));
 
+        if (!paiement.getCycle().getGroupe().getAdmin().getId().equals(admin.getId())) {
+            throw new BusinessException("Accès refusé");
+        }
         if (paiement.getStatut() == StatutPaiement.PAYE) {
-            throw new RuntimeException("Ce paiement est déjà réglé");
+            throw new BusinessException("Ce paiement est déjà réglé");
         }
 
         Membre membre = paiement.getMembre();
