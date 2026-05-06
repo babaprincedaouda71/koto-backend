@@ -14,6 +14,8 @@ public interface CycleRepository extends JpaRepository<Cycle, UUID> {
 
     Optional<Cycle> findByGroupeIdAndStatut(UUID groupeId, StatutCycle statut);
 
+    Optional<Cycle> findTopByGroupeIdAndStatutOrderByNumeroCycleDesc(UUID groupeId, StatutCycle statut);
+
     @Query("SELECT COALESCE(MAX(c.numeroCycle), 0) FROM Cycle c WHERE c.groupe.id = :groupeId")
     int findMaxNumeroCycleByGroupeId(@Param("groupeId") UUID groupeId);
 }

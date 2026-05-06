@@ -1,5 +1,6 @@
 package com.koto.groupe.dto;
 
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -32,5 +33,6 @@ public class GroupeRequest {
     private Integer nombreMembres;
 
     @NotNull(message = "La date de début est obligatoire")
+    @FutureOrPresent(message = "La date de début ne peut pas être dans le passé")
     private LocalDate dateDebut;
 }

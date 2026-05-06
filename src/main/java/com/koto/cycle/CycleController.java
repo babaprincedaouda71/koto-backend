@@ -34,4 +34,12 @@ public class CycleController {
             @PathVariable UUID groupeId) {
         return ResponseEntity.ok(ApiResponse.success(cycleService.getCycleActif(groupeId)));
     }
+
+    @PostMapping("/{cycleId}/cloturer")
+    public ResponseEntity<ApiResponse<CycleResponse>> cloturerCycle(
+            @PathVariable UUID groupeId,
+            @PathVariable UUID cycleId) {
+        CycleResponse response = cycleService.cloturerCycle(groupeId, cycleId);
+        return ResponseEntity.ok(ApiResponse.success("Cycle clôturé", response));
+    }
 }

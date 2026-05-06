@@ -5,6 +5,8 @@ import com.koto.groupe.Groupe;
 import com.koto.groupe.GroupeRepository;
 import com.koto.membre.Membre;
 import com.koto.membre.MembreRepository;
+import com.koto.membre.StatutMembre;
+import com.koto.shared.BusinessException;
 import com.koto.paiement.Paiement;
 import com.koto.paiement.PaiementRepository;
 import com.koto.paiement.StatutPaiement;
@@ -33,29 +35,32 @@ public class CycleService {
     public CycleResponse demarrerCycle(UUID groupeId) {
         User admin = getCurrentUser();
         Groupe groupe = groupeRepository.findById(groupeId)
-                .orElseThrow(() -> new RuntimeException("Groupe non trouvé"));
+                .orElseThrow(() -> new BusinessException("Groupe non trouvé"));
 
         if (!groupe.getAdmin().getId().equals(admin.getId())) {
-            throw new RuntimeException("Accès refusé — admin uniquement");
+            throw new BusinessException("Accès refusé — admin uniquement");
         }
 
         cycleRepository.findByGroupeIdAndStatut(groupeId, StatutCycle.EN_COURS)
                 .ifPresent(c -> {
-                    throw new RuntimeException("Un cycle est déjà en cours");
+                    throw new BusinessException("Un cycle est déjà en cours");
                 });
 
         List<Membre> membres = membreRepository
-                .findByGroupeIdOrderByOrdreReceptionAsc(groupeId);
+                .findByGroupeIdAndStatutOrderByOrdreReceptionAsc(groupeId, StatutMembre.ACTIF);
 
         if (membres.isEmpty()) {
-            throw new RuntimeException("Le groupe n'a pas de membres");
+            throw new BusinessException("Le groupe n'a pas encore de membres actifs");
         }
 
         int prochainNumero = cycleRepository.findMaxNumeroCycleByGroupeId(groupeId) + 1;
         int indexBeneficiaire = (prochainNumero - 1) % membres.size();
         Membre beneficiaire = membres.get(indexBeneficiaire);
 
-        LocalDate dateDebut = LocalDate.now();
+        LocalDate dateDebut = cycleRepository
+                .findTopByGroupeIdAndStatutOrderByNumeroCycleDesc(groupeId, StatutCycle.TERMINE)
+                .map(Cycle::getDateFin)
+                .orElse(groupe.getDateDebut());
         LocalDate dateFin = dateDebut.plusMonths(1);
 
         Cycle cycle = Cycle.builder()
@@ -88,7 +93,7 @@ public class CycleService {
 
     public List<CycleResponse> getCycles(UUID groupeId) {
         List<Membre> membres = membreRepository
-                .findByGroupeIdOrderByOrdreReceptionAsc(groupeId);
+                .findByGroupeIdAndStatutOrderByOrdreReceptionAsc(groupeId, StatutMembre.ACTIF);
         return cycleRepository.findByGroupeIdOrderByNumeroCycleAsc(groupeId)
                 .stream()
                 .map(c -> toResponse(c, membres.size()))
@@ -97,9 +102,36 @@ public class CycleService {
 
     public CycleResponse getCycleActif(UUID groupeId) {
         List<Membre> membres = membreRepository
-                .findByGroupeIdOrderByOrdreReceptionAsc(groupeId);
+                .findByGroupeIdAndStatutOrderByOrdreReceptionAsc(groupeId, StatutMembre.ACTIF);
         Cycle cycle = cycleRepository.findByGroupeIdAndStatut(groupeId, StatutCycle.EN_COURS)
-                .orElseThrow(() -> new RuntimeException("Aucun cycle en cours"));
+                .orElseThrow(() -> new BusinessException("Aucun cycle en cours"));
+        return toResponse(cycle, membres.size());
+    }
+
+    public CycleResponse cloturerCycle(UUID groupeId, UUID cycleId) {
+        User admin = getCurrentUser();
+        Groupe groupe = groupeRepository.findById(groupeId)
+                .orElseThrow(() -> new BusinessException("Groupe non trouvé"));
+
+        if (!groupe.getAdmin().getId().equals(admin.getId())) {
+            throw new BusinessException("Accès refusé — admin uniquement");
+        }
+
+        Cycle cycle = cycleRepository.findById(cycleId)
+                .orElseThrow(() -> new BusinessException("Cycle non trouvé"));
+
+        if (!cycle.getGroupe().getId().equals(groupeId)) {
+            throw new BusinessException("Accès refusé");
+        }
+        if (cycle.getStatut() != StatutCycle.EN_COURS) {
+            throw new BusinessException("Ce cycle n'est pas en cours");
+        }
+
+        cycle.setStatut(StatutCycle.TERMINE);
+        cycleRepository.save(cycle);
+
+        List<Membre> membres = membreRepository
+                .findByGroupeIdAndStatutOrderByOrdreReceptionAsc(groupeId, StatutMembre.ACTIF);
         return toResponse(cycle, membres.size());
     }
 
